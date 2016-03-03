@@ -77,8 +77,6 @@ function motherfucker(json, template)
         thing = thing.replace("{GENRES}", a.genres);
         appendElement.append(thing);
     }
-	
-	footer();
     
     $("#burger").delay(100).fadeIn(300);
 }
