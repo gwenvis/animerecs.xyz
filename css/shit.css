@@ -255,6 +255,11 @@ div
     font-size:0.8em;
 }
 
+hr
+{
+	width:80%;
+}
+
 .footer p
 {
     display:inline;
