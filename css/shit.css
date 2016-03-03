@@ -265,6 +265,7 @@ hr
 {
 	height:auto;
 	display:inline-flex;
+	max-width:100%;
 }
 
 // added by massacre
