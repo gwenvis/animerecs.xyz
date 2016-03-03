@@ -21,14 +21,6 @@ function init()
         hashchanged(false);
 }
 
-function footer() {
-    if ($(window).height() > $('body').height())
-        {
-			var extra = $(window).height() - $('body').height();
-			$('#footer').css('margin-top', extra);
-        }
-    }
-
 //Load a Json, remove everything inside of the wrapper and do some cool stuff
 function loadJson(jsonPartStringThingHahaha, fadeiniout) 
 {
@@ -43,7 +35,7 @@ function loadJson(jsonPartStringThingHahaha, fadeiniout)
     .promise().done(function ()
     {
         $("#burger div").remove();
-        burger.append("<div class=\"row\">\n\n</div>");
+        burger.append("<div id="appendherelol"> </div>");
         var json = $.ajax("http://anime.stepperman.com/anime.json", { dataType:"text" }).done(
             function(data) 
             { 
@@ -70,7 +62,7 @@ function loadJson(jsonPartStringThingHahaha, fadeiniout)
 
 function motherfucker(json, template)
 {
-    var appendElement = $(".row");
+    var appendElement = $("#appendherelol");
     for (var a of json)
     {
         
