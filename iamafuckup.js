@@ -5,7 +5,14 @@ window.addEventListener("hashchange", function() { hashchanged(true); } );
 
 function hashchanged(yesno)
 {
+    if(location.hash.length == 0)
+    {
+	location.reload();
+    }
+    else
+{
     loadJson(window.location.hash.replace("#", ""), yesno);
+}
 }
 
 function init()
@@ -29,10 +36,11 @@ function loadJson(jsonPartStringThingHahaha, fadeiniout)
     {
         $("#burger div").remove();
         burger.append("<div class=\"row\">\n\n</div>");
-        var json = $.ajax("http://localhost:8888/anime.json").done(
+        var json = $.ajax("http://anime.stepperman.com/anime.json", { dataType:"text" }).done(
             function(data) 
             { 
-                $.ajax("http://localhost:8888/card.txt", { dataType:"text" }).done(
+		console.log(data);
+                $.ajax("http://anime.stepperman.com/card.txt", { dataType:"text" }).done(
                 function(data2) 
                 {
                     
