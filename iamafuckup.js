@@ -25,7 +25,7 @@ function footer() {
     if ($(window).height() > $('body').height())
         {
 			var extra = $(window).height() - $('body').height();
-			$('#wrapper1').css('margin-top', extra);
+			$('#footer').css('margin-top', extra);
         }
     }
 
