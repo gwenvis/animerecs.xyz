@@ -259,15 +259,17 @@ div
 {
     display:inline;
 }*/
+//added by massacre
 #wrapper1 {
-	min-height:100%;
-	position:relative;
+	position: relative;
 }
+
+// added by massacre
 #footer {
 	background:#acacac;
 	width:100%;
 	height:60px;
-	position:relative;
+	position: absolute;
 	bottom:0;
 	font-size:0.8em;
 	padding:1em;
