@@ -34,8 +34,8 @@ function loadJson(jsonPartStringThingHahaha, fadeiniout)
     burger.fadeOut(time)
     .promise().done(function ()
     {
-        $("#burger div").remove();
-        burger.append("<div id=\"appendherelol\"> </div>");
+        $("#burger #removeable").remove();
+        burger.prepend("<div id=\"appendherelol\"> </div>");
         var json = $.ajax("http://anime.stepperman.com/anime.json", { dataType:"text" }).done(
             function(data) 
             { 
