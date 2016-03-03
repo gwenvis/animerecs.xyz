@@ -244,23 +244,12 @@ div
     margin-left:3px;
     margin-top:4px;
 }
-
-.footer
-{
-    position:relative;
-    width:100%;
-    height:60px;
-    bottom:0;
-    padding:1em;
-    font-size:0.8em;
-}
-
 hr
 {
 	width:80%;
 }
 
-.footer p
+#footer p
 {
     display:inline;
 }
@@ -272,26 +261,18 @@ hr
 	position: relative;
 }*/
 
-.clearfix:after {
-  content:"";
-  display:table;
-  clear:both;
-}
-
 #appendherelol
 {
 	height:auto;
-	display:flex;
+	display:inline-flex;
 }
 
 // added by massacre
 #footer {
-	background:#acacac;
-	width:100%;
-	height:60px;
-	position: absolute;
-	bottom:0;
-	font-size:0.8em;
-	padding:1em;
-	
+	position:relative;
+    width:100%;
+    height:60px;
+    bottom:0;
+    padding:1em;
+    font-size:0.8em;
 }
