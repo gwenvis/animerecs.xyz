@@ -21,6 +21,14 @@ function init()
         hashchanged(false);
 }
 
+function footer() {
+    if ($(window).height() > $('body').height())
+        {
+			var extra = $(window).height() - $('body').height();
+			$('#wrapper1').css('margin-top', extra);
+        }
+    }
+
 //Load a Json, remove everything inside of the wrapper and do some cool stuff
 function loadJson(jsonPartStringThingHahaha, fadeiniout) 
 {
@@ -77,6 +85,8 @@ function motherfucker(json, template)
         thing = thing.replace("{GENRES}", a.genres);
         appendElement.append(thing);
     }
+	
+	footer();
     
     $("#burger").delay(100).fadeIn(300);
 }
