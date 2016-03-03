@@ -1,0 +1,16 @@
+
+                <div class="card">
+                    <div class="thumb-link">
+                        <div class="title">
+                            <p id="show">{SHOW}</p>
+                            <p id="studio">{STUDIO}</p>
+                        </div>
+                        <img class="thumb" src="{POSTER}"/>
+                    </div>
+                    <div class="blah">
+                        <div class="links"><a href="{MALLINK}" target="_blank"><img src="img/malicon.png"/></a></div>
+                        <div class="summary">{SUMMARY}                       
+                        </div>
+                        <div class="genres">{GENRES}</div>                 
+                    </div>
+                </div>

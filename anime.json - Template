@@ -1,0 +1,14 @@
+{
+	"subromance" :
+	[
+			{
+                "name":"", 
+                "summary":"", 
+                "studio":"",
+                "poster":"", 
+                "mallink":"", 
+                "hblink":"", 
+                "genres": [ ] 
+            }
+	]
+}
