@@ -1,8 +1,7 @@
-*, *:after, *:before
+*
 {
     box-sizing:border-box;
     margin:0;
-    font-family:'Open Sans';
 }
 
 
@@ -35,11 +34,13 @@ header p
     color:white;
     position:absolute;
     width:auto;
+	font-family:'Open Sans';
 }
 
 #logo
 {
     text-decoration: none;
+	font-family:'Open Sans';
     color:white;
 }
 
@@ -52,7 +53,8 @@ header p
     margin-bottom:50px;
     height:auto;
     align-content:center;
-}
+font-family:'Open Sans';
+	}
 
 @media (max-width:1220px) {
     .wrapper
@@ -84,6 +86,7 @@ header p
     cursor:pointer;
     position:relative;
     box-shadow: rgba(0,0,0,0.3) 1px 1px 2px;
+	font-family:'Open Sans';
 }
 
 .cat p
@@ -92,6 +95,7 @@ header p
     text-align:center;
     padding-top:5px;
     text-shadow: 0 0 1px rgba(0,0,0,0.8);
+	font-family:'Open Sans';
 }
 
 /*
@@ -142,6 +146,7 @@ So the website loads faster, I think? Why the hell are you even reading this? Oh
     color:#1c1c1c;
     text-align:center;
     padding:0.2em;
+	font-family:'Open Sans';
 }
 
 .card
@@ -155,6 +160,7 @@ So the website loads faster, I think? Why the hell are you even reading this? Oh
     box-shadow: rgba(0,0,0,0.1) 2px 2px 5px;
     border-radius: 2px;
     background-color:white;
+	font-family:'Open Sans';
 }
 
 .thumb
@@ -181,6 +187,7 @@ div
     bottom:0;
     background:linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.5) 100%);
     border-radius: 0 0 0 2px;
+	font-family:'Open Sans';
 }
 
 #show, #studio
@@ -189,6 +196,7 @@ div
     color:white;
     font-weight:600;
     width:auto;
+	font-family:'Open Sans';
 }
 
 #studio
@@ -204,6 +212,7 @@ div
     font-size:0.75em;
     float:right;
     height:250px;
+	font-family:'Open Sans';
 }
 
 .genres
@@ -220,6 +229,7 @@ div
     bottom:0;
     min-height: 30px;
     max-height:35px;
+	font-family:'Open Sans';
     
 }
 
@@ -231,12 +241,14 @@ div
     padding-top:5px;
     overflow:scroll;
     height:238px;
+	font-family:'Open Sans';
 }
 
 .links
 {
     background-color:#F9F9F9;
     border-bottom:solid 1px #EEE;
+	font-family:'Open Sans';
 }
 
 .links a img
@@ -253,6 +265,7 @@ hr
 #footer p
 {
     display:inline;
+	font-family:'Open Sans';
 }
 
 /*
