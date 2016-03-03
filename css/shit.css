@@ -265,9 +265,16 @@ div
 	position: relative;
 }
 
+.clearfix:after {
+  content:"";
+  display:table;
+  clear:both;
+}
+
 #appendherelol
 {
 	height:auto;
+	display:flex;
 }
 
 // added by massacre
