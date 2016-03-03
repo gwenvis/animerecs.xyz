@@ -260,8 +260,14 @@ div
     display:inline;
 }*/
 //added by massacre
+//thanks massacre, doesn't work for some reason:(
 #wrapper1 {
 	position: relative;
+}
+
+#appendherelol
+{
+	height:auto;
 }
 
 // added by massacre
