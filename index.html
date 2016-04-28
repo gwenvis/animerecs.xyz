@@ -1,66 +1,23 @@
-<!--
-ALL COPYRIGHTS BY ME AHHAAHHAHAHAHAH c Stepper
-With many thanks to a certain Reddit post that will not be linked here, but on the website. On the about page or something?
-
-Reddit post by: /u/7TeenWriters
-
-Hope you like the source, I am new at HTML so this is pretty much a learning process for me.
-Also the first time EVER using Ajax and jQuery (wow jQuery is fantastic). But I have experience in programming so it should be easy, right?
--->
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>AniRecs</title>
-        <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
-        <link rel="stylesheet" type="text/css" href="css/shit.css">
-        <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-        <meta name="viewport" content="width=400, initial-scale=0.8, user-scalable=no">
-    </head>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <link rel="stylesheet" text="text/css" href="css/main.css">
+    <title>Anirecs Node Editor</title>
+</head>
 
-    <body>
-            <header>
-                <p><a id="logo" href="index.html">Ani<span style="color:#a1d0ff;">Recs</span></a></p>
-                <!--<ul>
-                    <li><a href="#cool">Cool</a></li>
-                    <li><a href="#other">Other</a></li>
-                    <li><a href="#fuckshit">Suggest</a></li>
-                </ul>
-                I'll comment this out for now, might use/remove it later but IDK.-->
-            </header>
+<body>
+    <div id="help"></div>
 
-            <div class="wrapper" id="burger">
-                <div id="removeable">
-                    <p id="question">What do you want?</p>
-                    <div class="cat" onclick="change_hash('subromance');"><p>Non-Romance Shows with Good Romantic Subplots</p></div>
-                    <div class="cat" onclick="change_hash('happyendingornot');"><p>A show where I'm unsure if it has a happy ending</p></div>
-                    <div class="cat" onclick="change_hash('pullsmestart');"><p>A show that pulls me in from the start</p></div>
-                    <div class="cat" onclick="change_hash('getsmethinking');"><p>A show that gets me thinking</p></div>
-                    <div class="cat" onclick="change_hash('justwanthappy');"><p>I just want to be happy</p></div>
-                    <div class="cat" onclick="change_hash('complexfeelings');"><p>I want complex feelings</p></div>
-                    <div class="cat" onclick="change_hash('fuckmeup');"><p>fuck me up, fam</p></div>
-                    <div class="cat" onclick="change_hash('shortbutgood');"><p>a short but good show</p></div>
-                    <div class="cat" onclick="change_hash('#hype');"><p>HYPE</p></div>
-                    <div class="cat" onclick="change_hash('#romancecontinues');"><p>A romance that goes somewhere after the kiss/confession</p></div>
-                    <div class="cat" onclick="change_hash('#reallife');"><p>A show that feels real</p></div>
-                    <div class="cat" onclick="change_hash('#shitgetsreal');"><p>A humorous start, then shit gets real</p></div>
-                    <div class="cat" onclick="change_hash('#goodfight');"><p>A show with good fight choreography</p></div>
-                    <div class="cat" onclick="change_hash('#greatsoundtrack');"><p>A show with a GREAT soundtrack</p></div>
-                    <div class="cat" onclick="change_hash('#artsy');"><p>An artsy show</p></div>
-                </div>
-				
-				<hr>
-                <div id="footer">
-                    <p>Made by Stepper | <strong>STILL IN DEVELOPMENT!</strong> | <a href="https://www.reddit.com/r/anime/comments/47coa0/a_different_approach_to_anime_recommendations/">idea</a> from <a href="https://www.reddit.com/u/7TeenWriters">/u/7TeenWriters</a></p>
-					<p id="footerright">
-					<a href="https://github.com/stepperman/animerecs.xyz" title="Project on Github"><i class="fa fa-github"></i></a> | 
-					<a href="https://www.reddit.com/message/compose/?to=stepepper">Contact</a> (like for suggesting an anime, category or anything else.)</p>
-                </div>
-				
-            </div>
-            
-    </body>
+    <div class="config">
+        <input placeholder="MAL Link" class="param" style="width:100%;"></input>
+        <button class="param">Add Anime From MAL Link</button>
+        <button class="param">Add Node</button>
+        <p class="param"> </p>
+    </div>
+</body>
+
+<script src="js/cytoscape/cytoscape.js"></script>
+<script src="js/index.js"></script>
+
 </html>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script type="text/javascript" src="iamafuckup.js"></script>
