@@ -16,6 +16,8 @@ node.removable = false;
 node.x = 50;
 nodes.add(node);
 
+var newID = 1;
+
 
 var data = {
     nodes: nodes,
@@ -49,7 +51,7 @@ function AddNode() {
         return;
     
     var node = getNodeObject();
-    node.id = nodes.length;
+    node.id = ++newID;
     node.label = nodeNameValue;
     node.removable = true;
     node.x = network.getPositions()[linkedNode].x + 100;
@@ -79,26 +81,50 @@ function RemoveNode() {
 }
 
 function AddAnimeObject() {
-    var malLink = document.getElementById('mallink').value;
-    var animeObj = getAnimeFromMalLink(malLink);
-    var nodeObj = getNodeObject();
     
-    nodeObj.id()
+    var linkedNode = network.getSelectedNodes()[0];
+    
+    //dont add if it doesn't exist or the thing is a thing thong thing thang thong
+    if(linkedNode == null || nodes.get(linkedNode).isAnimeObject)
+        return;
+    
+    var malLink = document.getElementById('mallink').value;
+    getAnimeFromMalLink(malLink, function(animeObj) {
+        var nodeObj = getNodeObject();
+
+        nodeObj.id = ++newID;
+        nodeObj.x = network.getPositions()[linkedNode].x + 100;
+        nodeObj.y = network.getPositions()[linkedNode].y;
+        nodeObj.objectData = animeObj;
+        nodeObj.label = 'Anime: ' + animeObj.animeName;
+        nodeObj.color.background = "#26c36e";
+
+        var edge = {from:0, to:0};
+        edge.from = linkedNode;
+        edge.to = nodes.length;
+
+        edges.add(edge);
+        nodes.add(nodeObj);
+    });
 }
 
 function getNodeObject() {
-    return {id: 0, label: '', removable: true, x: 0, y: 0, isAnimeObject: false, objectData:{}}
+    return {id: 0, label: '', color: { background:"#299cb7" }, removable: true, x: 0, y: 0, isAnimeObject: false, objectData:{}}
 }
 
 //I have no clue what I'm doing tbh
-function getAnimeFromMalLink(link) {
+function getAnimeFromMalLink(link, callback) {
     
     var animeObject = { animeName:'', animeSynopsis:'', animeGenres:[], animeCover:'', animeStudios:[], animeMalLink:'' };
     var obj = {
         url:'',
         dataType:'text',
-        context:document.body,
-        success: function(data) {
+        context:document.body
+        
+    };
+    
+    obj.url = link;
+    $.ajax(obj).done(function(data) {
             
             var parser = new DOMParser();
             var doc = parser.parseFromString(data, "text/html");
@@ -150,16 +176,11 @@ function getAnimeFromMalLink(link) {
             animeObject.animeMalLink = link;
             
             console.log(animeObject);
-            return animeObject;
+            return callback(animeObject);
             
             //Coded this all in one go, dear code god let this work.
             //Alright all of it worked except for the genres and studios. Which work exactly the same so hahahahahahahAHAHAHAHAHAHAH WOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO im dead inside
-        }
-        
-    };
-    
-    obj.url = link;
-    $.ajax(obj);
+        });
 }
 
 function getElementByXpath(path, doc) {
