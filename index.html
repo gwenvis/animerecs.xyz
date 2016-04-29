@@ -3,21 +3,23 @@
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <link rel="stylesheet" text="text/css" href="css/main.css">
+    <link rel="stylesheet" text="text/css" href="deps/visjs/vis.min.css">
     <title>Anirecs Node Editor</title>
 </head>
 
 <body>
-    <div id="help"></div>
+    <div id="network"></div>
 
     <div class="config">
-        <input placeholder="MAL Link" class="param" style="width:100%;"></input>
-        <button class="param">Add Anime From MAL Link</button>
-        <button class="param">Add Node</button>
+        <input  id="mallink" placeholder="MAL Link" class="param" style="width:100%;"></input>
+        <button class="param" onclick="AddAnimeObject()">Add Anime From MAL Link</button>
+        <input id="nodename" placeholder="Node Name" class="param" style="width:100%;"></input>
+        <button class="param" onclick="AddNode()">Add Node</button>
         <p class="param"> </p>
     </div>
 </body>
 
-<script src="js/cytoscape/cytoscape.js"></script>
+<script src="deps/visjs/vis.js"></script>
 <script src="js/index.js"></script>
 
 </html>
