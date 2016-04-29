@@ -7,6 +7,7 @@ var node = getNodeObject();
 node.id = 0;
 node.label = 'Show';
 node.removable = false;
+node.physics = false;
 nodes.add(node);
 
 node = getNodeObject();
@@ -14,6 +15,7 @@ node.id = 1;
 node.label = 'Film';
 node.removable = false;
 node.x = 50;
+node.physics = false;
 nodes.add(node);
 
 var newID = 1;
@@ -27,15 +29,24 @@ var data = {
 var options = {
     edges: {
         arrows: 'to',
-        smooth: false
+        smooth: true,
+        length: 50
+    },
+    
+    barnesHut : {
+      centralGravity:0,
+        springConstant:0.3
     },
     
     nodes: {
-      shape:'box'  
+      shape:'box',
+        shadow:{
+            enabled:true
+        }
     },
     
     physics: {
-        enabled: false
+        enabled: true
     }
 }
 
@@ -59,7 +70,7 @@ function AddNode() {
     
     var edge = {from:0, to:0};
     edge.from = linkedNode;
-    edge.to = nodes.length;
+    edge.to = newID;
     
     //Do you know that feel when a programming language just DOES NOT WORK AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
     edges.add(edge);
@@ -101,7 +112,7 @@ function AddAnimeObject() {
 
         var edge = {from:0, to:0};
         edge.from = linkedNode;
-        edge.to = nodes.length;
+        edge.to = newID;
 
         edges.add(edge);
         nodes.add(nodeObj);
@@ -109,7 +120,7 @@ function AddAnimeObject() {
 }
 
 function getNodeObject() {
-    return {id: 0, label: '', color: { background:"#299cb7" }, removable: true, x: 0, y: 0, isAnimeObject: false, objectData:{}}
+    return {id: 0, label: '', color: { background:"#299cb7" }, removable: true, x: 0, y: 0, isAnimeObject: false, objectData:{}, physics:true}
 }
 
 //I have no clue what I'm doing tbh
