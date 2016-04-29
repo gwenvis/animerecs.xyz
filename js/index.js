@@ -156,7 +156,7 @@ function AddAnimeObject() {
     var linkedNode = network.getSelectedNodes()[0];
     
     //dont add if it doesn't exist or the thing is a thing thong thing thang thong
-    if(linkedNode == null || nodes.get(linkedNode).isAnimeObject)
+    if(linkedNode == null || nodes.get(linkedNode).isAnimeObject == true)
         return;
     
     var malLink = document.getElementById('mallink').value;
@@ -168,6 +168,7 @@ function AddAnimeObject() {
         nodeObj.y = network.getPositions()[linkedNode].y;
         nodeObj.objectData = animeObj;
         nodeObj.label = 'Anime: ' + animeObj.animeName;
+        nodeObj.isAnimeObject = true;
         nodeObj.color.background = "#26c36e";
 
         var edge = {from:0, to:0};
