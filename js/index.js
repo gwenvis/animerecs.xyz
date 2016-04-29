@@ -8,6 +8,7 @@ node.id = 0;
 node.label = 'Show';
 node.removable = false;
 node.physics = false;
+node.color = "#e0ff34";
 nodes.add(node);
 
 node = getNodeObject();
@@ -16,6 +17,7 @@ node.label = 'Film';
 node.removable = false;
 node.x = 50;
 node.physics = false;
+node.color = "#e0ff34";
 nodes.add(node);
 
 var data = {
@@ -178,24 +180,32 @@ function AddAnimeObject() {
 }
 
 function getNodeObject() {
-    return {id: 0, label: '', color: { background:"#299cb7" }, removable: true, x: 0, y: 0, isAnimeObject: false, objectData:{}, physics:true}
+    return {id: 0, label: '', color: { background:"#299cb7" }, removable: true, x: 0, y: 0, isAnimeObject: false, malLink:'', physics:true}
 }
 
 //I have no clue what I'm doing tbh
 function getAnimeFromMalLink(link, callback) {
     
-    var animeObject = { animeName:'', animeSynopsis:'', animeGenres:[], animeCover:'', animeStudios:[], animeMalLink:'' };
-    var obj = {
-        url:'',
-        dataType:'text',
-        context:document.body
-        
+    if(!"WebSocket" in window) {
+        alert("This site will not work because websocket is not supported in your browser. Get a new browser, dipshit.");
+        return;
+    }
+    
+    var Socket = new WebSocket(link);
+    
+    Socket.onmessage = function(data) {
+        callback(ParseAnimeData(data));
     };
     
-    obj.url = link;
-    $.ajax(obj).done(function(data) {
-            
-            var parser = new DOMParser();
+    Socket.onopen = function() {
+      Socket.send();  
+    };
+}
+
+function ParseAnimeData(data) {
+    var parser = new DOMParser();
+            var animeObject = { animeName:'', animeSynopsis:'', animeGenres:[], animeCover:'', animeStudios:[], animeMalLink:'' };
+            console.log('ye');
             var doc = parser.parseFromString(data, "text/html");
             
             var body = getElementByXpath('//body', doc);
@@ -213,8 +223,7 @@ function getAnimeFromMalLink(link, callback) {
             //Anime Poster link
             extracted = getElementByXpath('//td/div/div/a/img', leftColumn);
             animeObject.animeCover = extracted.getAttribute('src');
-            console.log(animeObject.animeCover);
-            
+    
             //Anime studio
             extracted = getElementByXpath('//span[text()="Studios:"]/..', leftColumn);
             var studioNodes = document.evaluate('./a', extracted, null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
@@ -249,7 +258,6 @@ function getAnimeFromMalLink(link, callback) {
             
             //Coded this all in one go, dear code god let this work.
             //Alright all of it worked except for the genres and studios. Which work exactly the same so hahahahahahahAHAHAHAHAHAHAH WOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO im dead inside
-        });
 }
 
 function getElementByXpath(path, doc) {
