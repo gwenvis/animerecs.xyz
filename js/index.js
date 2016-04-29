@@ -191,23 +191,9 @@ function getAnimeFromMalLink(link, callback) {
         return;
     }
     
-    var xhr = new XMLHttpRequest();
-    if("withCredentials" in xhr) {
-        xhr.open('GET', 'http://www.whateverorigin.org/get?url=' + link);
-        
-        xhr.onload = function() {
-            callback(ParseAnimeData(JSON.parse(xhr.responseText).contents), link);
-        }
-        
-        xhr.onerror = function() {
-            alert('Shit, an error has fucking occured!');
-        }
-        
-        xhr.send();
-    }
-    else {
-        throw new Error("ERROR AAAAAAAAAAAAAAAAAAAAAAA");        
-    }
+    $.getJSON('http://whateverorigin.org/get?url=' + link + '&callback=?', function(data){
+	   callback(ParseAnimeData(data.contents), link);
+    });
 }
 
 function ParseAnimeData(data, link) {
