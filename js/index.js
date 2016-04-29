@@ -191,18 +191,26 @@ function getAnimeFromMalLink(link, callback) {
         return;
     }
     
-    var Socket = new WebSocket(link);
-    
-    Socket.onmessage = function(data) {
-        callback(ParseAnimeData(data));
-    };
-    
-    Socket.onopen = function() {
-      Socket.send();  
-    };
+    var xhr = new XMLHttpRequest();
+    if("withCredentials" in xhr) {
+        xhr.open('GET', 'http://www.whateverorigin.org/get?url=' + link);
+        
+        xhr.onload = function() {
+            callback(ParseAnimeData(JSON.parse(xhr.responseText).contents), link);
+        }
+        
+        xhr.onerror = function() {
+            alert('Shit, an error has fucking occured!');
+        }
+        
+        xhr.send();
+    }
+    else {
+        throw new Error("ERROR AAAAAAAAAAAAAAAAAAAAAAA");        
+    }
 }
 
-function ParseAnimeData(data) {
+function ParseAnimeData(data, link) {
     var parser = new DOMParser();
             var animeObject = { animeName:'', animeSynopsis:'', animeGenres:[], animeCover:'', animeStudios:[], animeMalLink:'' };
             console.log('ye');
@@ -254,7 +262,7 @@ function ParseAnimeData(data) {
             animeObject.animeMalLink = link;
             
             console.log(animeObject);
-            return callback(animeObject);
+            return animeObject;
             
             //Coded this all in one go, dear code god let this work.
             //Alright all of it worked except for the genres and studios. Which work exactly the same so hahahahahahahAHAHAHAHAHAHAH WOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO im dead inside
