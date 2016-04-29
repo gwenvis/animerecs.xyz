@@ -18,12 +18,10 @@ node.x = 50;
 node.physics = false;
 nodes.add(node);
 
-var newID = 1;
-
-
 var data = {
     nodes: nodes,
-    edges: edges
+    edges: edges,
+    lastID: 1
 }
 
 var options = {
@@ -33,9 +31,11 @@ var options = {
         length: 50
     },
     
-    barnesHut : {
-      centralGravity:0,
-        springConstant:0.3
+    physics : {
+        barnesHut : {
+          centralGravity:0,
+            springConstant:0.3
+        }
     },
     
     nodes: {
@@ -53,6 +53,64 @@ var options = {
 var container = document.getElementById('network');
 var network = new vis.Network(container, data, options);
 
+//Export the JSON usable for later saves
+function Save() {
+    
+    var allIDs = data.nodes.getIds();
+    
+    
+    for(var i = 0; i < allIDs.length; i++)
+    {
+        var node = nodes.get(allIDs[i]);
+        node.x = network.getPositions([allIDs[i]])[allIDs[i]].x;
+        node.y = network.getPositions([allIDs[i]])[allIDs[i]].y;
+        nodes.update(node);
+    }
+    
+    download('anirecsNodes ids ' + data.lastID + '.json', JSON.stringify(data))
+}
+
+function load() {
+    var jsonToLoad = document.getElementById('jsonloading').value;
+    
+    var parsedJSON = JSON.parse(jsonToLoad);
+     console.log(parsedJSON);
+    
+    //load nodes
+    nodes.clear();
+    
+    for(var node in parsedJSON.nodes._data) {
+        nodes.add(parsedJSON.nodes._data[node]);
+    }
+    
+    //load edges
+    edges.clear();
+    
+    for(var edge in parsedJSON.edges._data) {
+        edges.add(parsedJSON.edges._data[edge]);
+    }
+}
+
+//Export the JSON usable for the site.
+function Export() {
+    
+}
+
+function download(filename, text) {
+    var pom = document.createElement('a');
+    pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    pom.setAttribute('download', filename);
+
+    if (document.createEvent) {
+        var event = document.createEvent('MouseEvents');
+        event.initEvent('click', true, true);
+        pom.dispatchEvent(event);
+    }
+    else {
+        pom.click();
+    }
+}
+
 function AddNode() {
     var nodeNameValue = document.getElementById('nodename').value;
     var linkedNode = network.getSelectedNodes()[0];
@@ -62,7 +120,7 @@ function AddNode() {
         return;
     
     var node = getNodeObject();
-    node.id = ++newID;
+    node.id = ++data.lastID;
     node.label = nodeNameValue;
     node.removable = true;
     node.x = network.getPositions()[linkedNode].x + 100;
@@ -70,7 +128,7 @@ function AddNode() {
     
     var edge = {from:0, to:0};
     edge.from = linkedNode;
-    edge.to = newID;
+    edge.to = data.lastID;
     
     //Do you know that feel when a programming language just DOES NOT WORK AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
     edges.add(edge);
@@ -103,7 +161,7 @@ function AddAnimeObject() {
     getAnimeFromMalLink(malLink, function(animeObj) {
         var nodeObj = getNodeObject();
 
-        nodeObj.id = ++newID;
+        nodeObj.id = ++data.lastID;
         nodeObj.x = network.getPositions()[linkedNode].x + 100;
         nodeObj.y = network.getPositions()[linkedNode].y;
         nodeObj.objectData = animeObj;
@@ -112,7 +170,7 @@ function AddAnimeObject() {
 
         var edge = {from:0, to:0};
         edge.from = linkedNode;
-        edge.to = newID;
+        edge.to = data.lastID;
 
         edges.add(edge);
         nodes.add(nodeObj);
