@@ -64,10 +64,18 @@ namespace convertor
                 return;
             }
 
-            MakeJSON(json).Wait();
+            Task.Factory.StartNew(() => MakeJSON(json));
         }
 
-        private async Task<bool> MakeJSON(dynamic json)
+        private async Task MakeJSON(dynamic json)
+        {
+            if (await ParseFiles(json))
+                LogNewLine("Succeeded! The exported folder can be used.");
+            else
+                LogNewLine("Problems occured! Please check the log for more information.");
+        }
+
+        private async Task<bool> ParseFiles(dynamic json)
         {
             var nodeList = new Dictionary<uint, object>();
             MyAnimeListAPI mal = new MyAnimeListAPI();
@@ -79,7 +87,41 @@ namespace convertor
 
                 if (a.isAnimeObject == true)
                 {
-                    Anime anime = await mal.GetAnimeMalLink(a.malLink.ToString());
+                    Anime anime = null;
+
+                    try
+                    {
+                        anime = await mal.GetAnimeMalLink(a.malLink.ToString());
+                    }
+                    catch (Exception)
+                    {
+                        LogNewLine($"[Error] Could not get anime object. ({a.label.ToString()}) MAL is down or the link is incorrect. Retrying 3 times.");
+
+                        //If failed, retry 3 times.
+                        //Honestly, this just seems like too much of a hack. If anyone ever reads this code, can someone think of a better way? Thanks.
+                        await Task.Delay(1000);
+
+                        bool s = false;
+
+                        for (int i = 0; i < 3; i++)
+                        {
+                            LogNewLine($"Try {i+1} of 3.");
+
+                            try
+                            {
+                                anime = await mal.GetAnimeMalLink(a.malLink.ToString());
+                                s = true;
+                            }
+                            catch (Exception) { }
+                        }
+
+                        if (!s)
+                        {
+                            LogNewLine("[Error] Failed to get Anime. Skipping.");
+                            continue;
+                        }
+
+                    }
 
                     //Already make a webclient for downloading the image
                     using (WebClient web = new WebClient())
@@ -90,13 +132,32 @@ namespace convertor
                         //Download the image
                         try
                         {
-                            await web.DownloadFileTaskAsync(new Uri(anime.PosterLink), $"./exported/img/{a.id.ToString()}");
-                            LogNewLine($"Downloaded image to file location: " + $"./exported/img/{a.id.ToString()}");
+                            await web.DownloadFileTaskAsync(new Uri(anime.PosterLink), $"./exported/img/{a.id.ToString()}.jpg");
+                            LogNewLine($"Downloaded image to file location: " + $"./exported/img/{a.id.ToString()}.jpg");
                         }
                         catch (Exception ex)
                         {
-                            LogNewLine("[Error] Could not download image. Aborting. Message: " + ex.Message);
-                            return false;
+                            LogNewLine("[Error] Could not download image. Retrying 3 times. Message: " + ex.Message);
+                            await Task.Delay(1000);
+                            bool succeeded = false;
+
+                            for (int i = 0; i < 3; i++)
+                            {
+                                try
+                                {
+                                    LogNewLine($"Download image. Retries left: {3 - i}.");
+                                    await web.DownloadFileTaskAsync(new Uri(anime.PosterLink), $"./exported/img/{a.id.ToString()}.jpg");
+                                    LogNewLine($"Downloaded image to file location: " + $"./exported/img/{a.id.ToString()}.jpg");
+                                    succeeded = true;
+                                    break;
+                                }
+                                catch (Exception) { await Task.Delay(1000); }
+                            }
+
+                            if (!succeeded)
+                            {
+                                LogNewLine("[Error] Failed downloading image, image will be unavailable.");
+                            }
                         }
 
                         ///Should the anime files be exported to a seperate file so it doesn't the json doesn't get big?
@@ -111,7 +172,7 @@ namespace convertor
                 else
                 {
                     nodeList.Add(uint.Parse(a.id.ToString()), new NodePath(a.label.ToString()));
-                    LogNewLine("Added path to node list.");
+                    LogNewLine($"Added path to node list. ({a.label.ToString()})");
                 }
             }
 
@@ -121,7 +182,11 @@ namespace convertor
 
         private void LogNewLine(string text)
         {
-            textBox_log.Text += text + Environment.NewLine;
+            Dispatcher.Invoke(new Action(() =>
+            {
+                textBox_log.AppendText(text + Environment.NewLine);
+                textBox_log.ScrollToEnd();
+            }));
         }
     }
 }
