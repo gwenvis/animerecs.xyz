@@ -93,11 +93,6 @@ function load() {
     }
 }
 
-//Export the JSON usable for the site.
-function Export() {
-    
-}
-
 function download(filename, text) {
     var pom = document.createElement('a');
     pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
@@ -170,6 +165,7 @@ function AddAnimeObject() {
         nodeObj.label = 'Anime: ' + animeObj.animeName;
         nodeObj.isAnimeObject = true;
         nodeObj.color.background = "#26c36e";
+        nodeObj.malLink = malLink;
 
         var edge = {from:0, to:0};
         edge.from = linkedNode;
