@@ -72,25 +72,32 @@ function Save() {
     download('anirecsNodes ids ' + data.lastID + '.json', JSON.stringify(data))
 }
 
-function load() {
-    var jsonToLoad = document.getElementById('jsonloading').value;
+function load(evt) {
     
-    var parsedJSON = JSON.parse(jsonToLoad);
-     console.log(parsedJSON);
+    var file = document.getElementById('fileBrowser').files[0];
     
-    //load nodes
-    nodes.clear();
+    var reader = new FileReader();
     
-    for(var node in parsedJSON.nodes._data) {
-        nodes.add(parsedJSON.nodes._data[node]);
-    }
+    reader.onload = function(theFile) {
+        
+        var parsedJSON = JSON.parse(theFile.target.result);
+        
+        //load nodes
+        nodes.clear();
+
+        for(var node in parsedJSON.nodes._data) {
+            nodes.add(parsedJSON.nodes._data[node]);
+        }
+
+        //load edges
+        edges.clear();
+
+        for(var edge in parsedJSON.edges._data) {
+            edges.add(parsedJSON.edges._data[edge]);
+        }
+    };
     
-    //load edges
-    edges.clear();
-    
-    for(var edge in parsedJSON.edges._data) {
-        edges.add(parsedJSON.edges._data[edge]);
-    }
+    reader.readAsText(file);
 }
 
 function download(filename, text) {
@@ -254,3 +261,5 @@ function ParseAnimeData(data, link) {
 function getElementByXpath(path, doc) {
   return document.evaluate(path, doc, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 }
+
+document.getElementById('fileBrowser').addEventListener('change', load, false);

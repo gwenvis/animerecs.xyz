@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Windows;
@@ -34,6 +32,8 @@ namespace convertor
                 textBox_filepath.Text = dialog.FileName;
             }
         }
+
+        private int errorsOccured;
 
         //Convert file to JSON
         private void button_convert_Click(object sender, RoutedEventArgs e)
@@ -69,15 +69,17 @@ namespace convertor
 
         private async Task MakeJSON(dynamic json)
         {
-            if (await ParseFiles(json))
+            errorsOccured = 0;
+            if (await Convert(json))
                 LogNewLine("Succeeded! The exported folder can be used.");
             else
                 LogNewLine("Problems occured! Please check the log for more information.");
         }
 
-        private async Task<bool> ParseFiles(dynamic json)
+        private async Task<bool> Convert(dynamic json)
         {
-            var nodeList = new Dictionary<uint, object>();
+            //Create the node dictionary and instantiate the MAL Api.
+            var nodeDict = new Dictionary<uint, Node>();
             MyAnimeListAPI mal = new MyAnimeListAPI();
 
             //Add each node to the directory, the nodes will later be connected.
@@ -91,36 +93,16 @@ namespace convertor
 
                     try
                     {
-                        anime = await mal.GetAnimeMalLink(a.malLink.ToString());
+                        await Retry.Do(async () =>
+                        {
+                            anime = await mal.GetAnimeMalLink(a.malLink.ToString());
+                        }, TimeSpan.FromSeconds(1));
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        LogNewLine($"[Error] Could not get anime object. ({a.label.ToString()}) MAL is down or the link is incorrect. Retrying 3 times.");
-
-                        //If failed, retry 3 times.
-                        //Honestly, this just seems like too much of a hack. If anyone ever reads this code, can someone think of a better way? Thanks.
-                        await Task.Delay(1000);
-
-                        bool s = false;
-
-                        for (int i = 0; i < 3; i++)
-                        {
-                            LogNewLine($"Try {i+1} of 3.");
-
-                            try
-                            {
-                                anime = await mal.GetAnimeMalLink(a.malLink.ToString());
-                                s = true;
-                            }
-                            catch (Exception) { }
-                        }
-
-                        if (!s)
-                        {
-                            LogNewLine("[Error] Failed to get Anime. Skipping.");
-                            continue;
-                        }
-
+                        LogNewLine("[Error] Could not get anime object after retrying 3 times. Skipping anime. Message: " + ex.Message);
+                        errorsOccured++;
+                        continue;
                     }
 
                     //Already make a webclient for downloading the image
@@ -132,52 +114,78 @@ namespace convertor
                         //Download the image
                         try
                         {
-                            await web.DownloadFileTaskAsync(new Uri(anime.PosterLink), $"./exported/img/{a.id.ToString()}.jpg");
-                            LogNewLine($"Downloaded image to file location: " + $"./exported/img/{a.id.ToString()}.jpg");
+                            await Retry.Do(async () =>
+                            {
+                                await web.DownloadFileTaskAsync(new Uri(anime.PosterLink), $"./exported/img/{a.id.ToString()}.jpg");
+                                LogNewLine($"Downloaded image to file location: " + $"./exported/img/{a.id.ToString()}.jpg");
+                            }, TimeSpan.FromSeconds(1));
                         }
                         catch (Exception ex)
                         {
-                            LogNewLine("[Error] Could not download image. Retrying 3 times. Message: " + ex.Message);
-                            await Task.Delay(1000);
-                            bool succeeded = false;
-
-                            for (int i = 0; i < 3; i++)
-                            {
-                                try
-                                {
-                                    LogNewLine($"Download image. Retries left: {3 - i}.");
-                                    await web.DownloadFileTaskAsync(new Uri(anime.PosterLink), $"./exported/img/{a.id.ToString()}.jpg");
-                                    LogNewLine($"Downloaded image to file location: " + $"./exported/img/{a.id.ToString()}.jpg");
-                                    succeeded = true;
-                                    break;
-                                }
-                                catch (Exception) { await Task.Delay(1000); }
-                            }
-
-                            if (!succeeded)
-                            {
-                                LogNewLine("[Error] Failed downloading image, image will be unavailable.");
-                            }
+                            LogNewLine($"[Error] Failed downloading image, image will be unavailable. ({a.idToString()}) Message: {ex.Message}");
+                            errorsOccured++;
                         }
 
                         ///Should the anime files be exported to a seperate file so it doesn't the json doesn't get big?
                         ///It might be loading useless files. I might do that later, first hope this actually works.
                         
-                        AnimeNode tempAnim = new AnimeNode(anime.Title, anime.Synopsis, "./img/" + a.id.ToString(), anime.Genres, anime.Studios, anime.Score);
-                        nodeList.Add(uint.Parse(a.id.ToString()), tempAnim);
+                        AnimeNode tempAnim = new AnimeNode(anime.Title, anime.Synopsis, "./img/" + a.id.ToString() + ".jpg", anime.Genres, anime.Studios, anime.Score);
+                        nodeDict.Add(uint.Parse(a.id.ToString()), tempAnim);
                         tempAnim = null; 
                         LogNewLine($"Added anime to node list. ({anime.Title})");
                     }
                 }
                 else
                 {
-                    nodeList.Add(uint.Parse(a.id.ToString()), new NodePath(a.label.ToString()));
+                    nodeDict.Add(uint.Parse(a.id.ToString()), new NodePath(a.label.ToString()));
                     LogNewLine($"Added path to node list. ({a.label.ToString()})");
                 }
             }
 
-            return true;
+            //Now connect all the nodes.
+            return ConnectNodes(json, nodeDict);
             
+        }
+
+        private bool ConnectNodes(dynamic json, Dictionary<uint, Node> nodeDict)
+        {
+            foreach (var edgeObj in json.edges._data)
+            {
+                var edge = edgeObj.First;
+
+                //Add where this node leads to.
+                Node temp;
+                if (nodeDict.TryGetValue(uint.Parse(edge.from.ToString()), out temp))
+                {
+                    temp.AddDirectionTo(uint.Parse(edge.to.ToString()));
+                    LogNewLine($"Added node {edge.to.ToString()} to node {edge.from.ToString()}.");
+                }
+
+                //Set where the node comes from.
+                if (nodeDict.TryGetValue(uint.Parse(edge.to.ToString()), out temp))
+                {
+                    temp.SetDirectionFrom(uint.Parse(edge.from.ToString()));
+                    LogNewLine($"Set node {edge.to.ToString()}'s from node to {edge.from.ToString()}.");
+                }
+
+            }
+
+            LogNewLine("Writing JSON to file...");
+
+            /// Export the JSON.           
+            //Serialize the nodeDict to a usable json.
+            var serializedJson = JsonConvert.SerializeObject(nodeDict);
+
+            var file = File.Create("./exported/anime.json");
+
+            //Save the JSON.
+            using (var sw = new StreamWriter(file))
+            {
+                sw.Write(serializedJson);
+                LogNewLine($"Finished writing JSON to file! Filesize: {file.Length / (1024)} KB");
+            }
+            
+            return true;
         }
 
         private void LogNewLine(string text)

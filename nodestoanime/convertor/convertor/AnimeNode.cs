@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace convertor
 {
-    class AnimeNode
+    class AnimeNode : Node
     {
         public string AnimeName;
         public string AnimeDescription;
@@ -14,8 +14,6 @@ namespace convertor
         public string[] AnimeGenres;
         public string[] AnimeStudios;
         public double AnimeRating;
-
-        public uint? direction_from = null;
 
         public AnimeNode(string name, string des, string path, string[] genres, string[] studios, double rating)
         {
@@ -25,11 +23,7 @@ namespace convertor
             AnimeGenres = genres;
             AnimeStudios = studios;
             AnimeRating = rating;
-        }
-
-        public void SetFrom(uint from)
-        {
-            direction_from = from;
+            base.isAnimeObject = true;
         }
     }
 }
