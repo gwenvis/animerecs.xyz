@@ -151,6 +151,11 @@ So the website loads faster, I think? Why the hell are you even reading this? Oh
 	font-family:'Open Sans';
 }
 
+#question a
+{
+    color:black;
+}
+
 .card
 {
     width:376px;
