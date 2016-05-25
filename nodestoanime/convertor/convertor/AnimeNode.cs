@@ -15,11 +15,11 @@ namespace convertor
         public string[] AnimeStudios;
         public double AnimeRating;
 
-        public AnimeNode(string name, string des, string path, string[] genres, string[] studios, double rating)
+        public AnimeNode(string name, string des, uint id, string[] genres, string[] studios, double rating)
         {
             AnimeName = name;
             AnimeDescription = des;
-            AnimePosterPath = path;
+            base.id = id;
             AnimeGenres = genres;
             AnimeStudios = studios;
             AnimeRating = rating;

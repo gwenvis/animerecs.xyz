@@ -8,8 +8,11 @@ namespace convertor
 {
     abstract class Node
     {
+        public uint id = 0;
+
         public uint direction_from;
         public List<uint> direction_to = new List<uint>();
+        public List<uint> ConnectedAnime = new List<uint>();
         public bool isAnimeObject = false;
 
         public void AddDirectionTo(uint dir)

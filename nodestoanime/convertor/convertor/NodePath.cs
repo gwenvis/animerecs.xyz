@@ -10,9 +10,10 @@ namespace convertor
     {
         public string name;
 
-        public NodePath(string name)
+        public NodePath(string name, uint id)
         {
             this.name = name;
+            base.id = id;
         }
     }
 }

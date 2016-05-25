@@ -5,13 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:convertor"
         mc:Ignorable="d"
-        Title="Node Convertor" Height="290.235" Width="520.137" Background="#FF303030" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+        Title="Node Convertor" Height="300.821" Width="530.569" Background="#FF303030" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" MinWidth="520" MinHeight="287">
     <Grid Height="261" Width="514">
         <Button x:Name="button" Content="Select JSON" HorizontalAlignment="Left" Margin="394,10,0,0" VerticalAlignment="Top" Width="106" Height="23" Click="button_Click" Background="#FF443E3E" Foreground="White"/>
         <TextBox x:Name="textBox_filepath" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" Text="C:\" VerticalAlignment="Top" Width="379" MaxLines="1" Background="#FF706D6D" Foreground="#FFC3C3C3"/>
         <Button x:Name="button_convert" Content="Convert" HorizontalAlignment="Left" Margin="394,38,0,0" VerticalAlignment="Top" Width="106" Background="#FF6A6A6A" Foreground="White" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}" Click="button_convert_Click"/>
         <TextBox x:Name="textBox_log" HorizontalAlignment="Left" Height="184" Margin="10,63,0,0" TextWrapping="WrapWithOverflow" Text="" VerticalAlignment="Top" Width="490" Background="#FF474747" Foreground="#FFD1D1D1" UndoLimit="0" IsReadOnly="True" IsUndoEnabled="False"/>
-        <Label x:Name="label" Content="Log" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top" Width="379" Foreground="White" Background="#00000000"/>
+        <Label x:Name="label" Content="Log" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top" Width="34" Foreground="White" Background="#00000000"/>
+        <CheckBox x:Name="checkBox_skipimg" Content="Skip Images" HorizontalAlignment="Left" Margin="305,41,0,0" VerticalAlignment="Top" Foreground="White"/>
 
     </Grid>
 </Window>

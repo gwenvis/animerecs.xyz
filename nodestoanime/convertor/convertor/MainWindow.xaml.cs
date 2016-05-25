@@ -34,6 +34,7 @@ namespace convertor
         }
 
         private int errorsOccured;
+        private bool skipImages = false;
 
         //Convert file to JSON
         private void button_convert_Click(object sender, RoutedEventArgs e)
@@ -64,6 +65,7 @@ namespace convertor
                 return;
             }
 
+            skipImages = (bool)checkBox_skipimg.IsChecked;
             Task.Factory.StartNew(() => MakeJSON(json));
         }
 
@@ -91,6 +93,7 @@ namespace convertor
                 {
                     Anime anime = null;
 
+
                     try
                     {
                         await Retry.Do(async () =>
@@ -105,46 +108,53 @@ namespace convertor
                         continue;
                     }
 
-                    //Already make a webclient for downloading the image
-                    using (WebClient web = new WebClient())
+                    if (!skipImages)
                     {
-                        //Make sure the directories exists, if not create it.
-                        Directory.CreateDirectory("./exported/img");
-
-                        //Download the image
-                        try
+                        //Already make a webclient for downloading the image
+                        using (WebClient web = new WebClient())
                         {
-                            await Retry.Do(async () =>
+                            //Make sure the directories exists, if not create it.
+                            Directory.CreateDirectory("./exported/img");
+
+                            //Download the image
+                            try
                             {
-                                await web.DownloadFileTaskAsync(new Uri(anime.PosterLink), $"./exported/img/{a.id.ToString()}.jpg");
-                                LogNewLine($"Downloaded image to file location: " + $"./exported/img/{a.id.ToString()}.jpg");
-                            }, TimeSpan.FromSeconds(1));
+                                await Retry.Do(async () =>
+                                {
+                                    await web.DownloadFileTaskAsync(new Uri(anime.PosterLink), $"./exported/img/{a.id.ToString()}.jpg");
+                                    LogNewLine($"Downloaded image to file location: " + $"./exported/img/{a.id.ToString()}.jpg");
+                                }, TimeSpan.FromSeconds(1));
+                            }
+                            catch (Exception ex)
+                            {
+                                LogNewLine($"[Error] Failed downloading image, image will be unavailable. ({a.idToString()}) Message: {ex.Message}");
+                                errorsOccured++;
+                            }
                         }
-                        catch (Exception ex)
-                        {
-                            LogNewLine($"[Error] Failed downloading image, image will be unavailable. ({a.idToString()}) Message: {ex.Message}");
-                            errorsOccured++;
-                        }
-
-                        ///Should the anime files be exported to a seperate file so it doesn't the json doesn't get big?
-                        ///It might be loading useless files. I might do that later, first hope this actually works.
-                        
-                        AnimeNode tempAnim = new AnimeNode(anime.Title, anime.Synopsis, "./img/" + a.id.ToString() + ".jpg", anime.Genres, anime.Studios, anime.Score);
-                        nodeDict.Add(uint.Parse(a.id.ToString()), tempAnim);
-                        tempAnim = null; 
-                        LogNewLine($"Added anime to node list. ({anime.Title})");
                     }
+
+
+                    ///Should the anime files be exported to a seperate file so it doesn't the json doesn't get big?
+                    ///It might be loading useless files. I might do that later, first hope this actually works.
+                    ///Yes, I'm working on that right now!
+
+                    AnimeNode tempAnim = new AnimeNode(anime.Title, anime.Synopsis, uint.Parse(a.id.ToString()), anime.Genres, anime.Studios, anime.Score);
+                    nodeDict.Add(uint.Parse(a.id.ToString()), tempAnim);
+                    tempAnim = null;
+                    LogNewLine($"Added anime to node list. ({anime.Title})");
+
                 }
                 else
                 {
-                    nodeDict.Add(uint.Parse(a.id.ToString()), new NodePath(a.label.ToString()));
+                    var id = uint.Parse(a.id.ToString());
+                    nodeDict.Add(id, new NodePath(a.label.ToString(), id));
                     LogNewLine($"Added path to node list. ({a.label.ToString()})");
                 }
             }
 
             //Now connect all the nodes.
             return ConnectNodes(json, nodeDict);
-            
+
         }
 
         private bool ConnectNodes(dynamic json, Dictionary<uint, Node> nodeDict)
@@ -152,6 +162,10 @@ namespace convertor
             foreach (var edgeObj in json.edges._data)
             {
                 var edge = edgeObj.First;
+
+                //check if both of the nodes exist
+                if (!nodeDict.ContainsKey(uint.Parse(edge.from.ToString())) || !nodeDict.ContainsKey(uint.Parse(edge.to.ToString())))
+                    continue;
 
                 //Add where this node leads to.
                 Node temp;
@@ -170,6 +184,41 @@ namespace convertor
 
             }
 
+            //Fill the connected anime list.
+            foreach (var node in nodeDict)
+            {
+                //Don't iterate through anime object, they're not connected anyway.
+                if (node.Value.isAnimeObject)
+                    continue;
+
+                node.Value.ConnectedAnime.AddRange(ReturnAnimeObject(node.Value, nodeDict));
+            }
+
+            var nodeDictCopy = new Dictionary<uint, Node>(nodeDict);
+
+            //Separate the anime to the folder and remove it in the dict.
+            foreach (var node in nodeDict)
+            {
+                if (!node.Value.isAnimeObject)
+                    continue;
+
+                Directory.CreateDirectory("./exported/anime/");
+
+                var anim = File.Create($"./exported/anime/{node.Value.id.ToString()}.json");
+
+                using (var sw = new StreamWriter(anim))
+                {
+                    var s = JsonConvert.SerializeObject(node.Value);
+                    sw.Write(s);
+                    LogNewLine($"Added {node.Value.id}.json to the anime folder.");
+                }
+
+                nodeDictCopy.Remove(node.Key);
+            }
+
+            nodeDict = nodeDictCopy;
+            nodeDictCopy = null;
+
             LogNewLine("Writing JSON to file...");
 
             /// Export the JSON.           
@@ -184,8 +233,30 @@ namespace convertor
                 sw.Write(serializedJson);
                 LogNewLine($"Finished writing JSON to file! Filesize: {file.Length / (1024)} KB");
             }
-            
+
             return true;
+        }
+
+        private uint[] ReturnAnimeObject(Node nodeToIterate, Dictionary<uint, Node> nodeDict)
+        {
+            List<uint> animeNodes = new List<uint>();
+
+            if (nodeToIterate.direction_to.Count == 0)
+                return animeNodes.ToArray();
+
+            //If the connected object is an anime object, add these to the list immediately, and return it.
+            if (nodeDict[nodeToIterate.direction_to[0]].isAnimeObject)
+            {
+                animeNodes.AddRange(nodeDict[nodeToIterate.id].direction_to);
+                return animeNodes.ToArray();
+            }
+
+            foreach (var c in nodeToIterate.direction_to)
+            {
+                animeNodes.AddRange(ReturnAnimeObject(nodeDict[c], nodeDict));
+            }
+
+            return animeNodes.ToArray();
         }
 
         private void LogNewLine(string text)
