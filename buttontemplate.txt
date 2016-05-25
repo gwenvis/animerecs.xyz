@@ -1,0 +1,7 @@
+<a href="" onclick="ClickButton({ID})">
+                        <div class="questionbutton" id="a{buttonid}" onclick="ClickButton({ID})">
+                            <div class="questiontext">
+                                {NODENAME}
+                            </div>
+                        </div>
+                    </a>
