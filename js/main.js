@@ -51,7 +51,7 @@ function ClickButton(id) {
 //C# is better than Javascript. Sadly you can't use it for client side scripting :(
 function LoadOptionAnime(id) {
     $(".options").empty();
-    
+    document.getElementById("article").style.height = '500px';
     for(var i = 0; i < anime[id].direction_to.length; i++) {
         
         console.log(anime[id].direction_to[i]);
@@ -118,8 +118,9 @@ function LoadID(id, amount, index) {
         if(amount == 2) {
             var index0pos = window.innerWidth / 2 - 402;
             var index1pos = window.innerWidth /2 + 2;
+            console.log(document.getElementById("a0").getBoundingClientRect());
             
-            document.getElementById("article").style.height = '500';
+            document.getElementById("article").style.height = '500px';
             
             style.innerHTML += '#a0 { position:absolute; left: ' + index0pos + 'px; } #a1 { position:absolute; left:' + index1pos + 'px; }';
         }
@@ -128,22 +129,54 @@ function LoadID(id, amount, index) {
             var index1pos = window.innerWidth / 2 + 402 * 0.5;
             var index2pos = window.innerWidth / 2 - 400 * 0.5;
             
-            document.getElementById("article").style.height = '500';
+            document.getElementById("article").style.height = '500px';
+            
             
             style.innerHTML += '#a0 { position:absolute; left: ' + index0pos + 'px; } #a1 { position:absolute; left:' + index1pos + 'px; } #a2 { position: absolute; left:' + index2pos + 'px;}';
         }
         else if(amount == 4) {
             var index0pos = window.innerWidth / 2 - 402 - 402 * 0.5;
-            var index1pos = window.innerWidth / 2 + 402 * 0.5;
-            var index2pos = window.innerWidth / 2 - 400 * 0.5;
-            var secondrowpos = window.innerWidth / 2 - 402 - 402 * 0.5;
+            var index1pos = window.innerWidth / 2 - 400 * 0.5;
+            var index2pos = window.innerWidth / 2 + 402 * 0.5;
+            var secondrowpos = 475;
             
-            document.getElementById("article").style.height = '800';
+            document.getElementById("article").style.height = '800px';
+            
+            style.innerHTML += '#a0 { position:absolute; left: ' + index0pos + 'px; }';
+            style.innerHTML += '#a1 { position:absolute; left: ' + index1pos + 'px; }';
+            style.innerHTML += '#a2 { position:absolute; left: ' + index2pos + 'px; }';
+            style.innerHTML += '#a3 { position:absolute; left: ' + index1pos + 'px; top: ' + secondrowpos +  'px;}';
+        }
+        else if(amount == 5) {
+            var index0pos = window.innerWidth / 2 - 402 - 402 * 0.5;
+            var index1pos = window.innerWidth / 2 - 400 * 0.5;
+            var index2pos = window.innerWidth / 2 + 402 * 0.5;
+            var index3pos = window.innerWidth / 2 - 402;
+            var index4pos = window.innerWidth /2 + 2;
+            var secondrowpos = 475;
+            
+            document.getElementById("article").style.height = '800px';
+            
+            style.innerHTML += '#a0 { position:absolute; left: ' + index0pos + 'px; }';
+            style.innerHTML += '#a1 { position:absolute; left: ' + index1pos + 'px; }';
+            style.innerHTML += '#a2 { position:absolute; left: ' + index2pos + 'px; }';
+            style.innerHTML += '#a3 { position:absolute; left: ' + index3pos + 'px; top: ' + secondrowpos +  'px;}';
+            style.innerHTML += '#a4 { position:absolute; left: ' + index4pos + 'px; top: ' + secondrowpos +  'px;}';
+        }
+        else if(amount == 4) {
+            var index0pos = window.innerWidth / 2 - 402 - 402 * 0.5;
+            var index1pos = window.innerWidth / 2 - 400 * 0.5;
+            var index2pos = window.innerWidth / 2 + 402 * 0.5;
+            var secondrowpos = 475;
+            
+            document.getElementById("article").style.height = '800px';
             
             style.innerHTML += '#a0 { position:absolute; left: ' + index0pos + 'px; }';
             style.innerHTML += '#a1 { position:absolute; left: ' + index1pos + 'px; }';
             style.innerHTML += '#a2 { position:absolute; left: ' + index2pos + 'px; }';
             style.innerHTML += '#a3 { position:absolute; left: ' + index0pos + 'px; top: ' + secondrowpos +  'px;}';
+            style.innerHTML += '#a4 { position:absolute; left: ' + index1pos + 'px; top: ' + secondrowpos +  'px;}';
+            style.innerHTML += '#a5 { position:absolute; left: ' + index2pos + 'px; top: ' + secondrowpos +  'px;}';
         }
     });    
 }
