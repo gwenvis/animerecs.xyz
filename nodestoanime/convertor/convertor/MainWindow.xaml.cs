@@ -193,7 +193,7 @@ namespace convertor
                 
                 if (node.Value.direction_to.Count > 0 &&nodeDict[node.Value.direction_to[0]].isAnimeObject)
                 {
-                    nodeDict[node.Value.direction_to[0]].leadsToAnime = true;
+                    node.Value.leadsToAnime = true;
                 }
 
                 node.Value.ConnectedAnime.AddRange(ReturnAnimeObject(node.Value, nodeDict));
