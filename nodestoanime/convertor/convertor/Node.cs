@@ -14,6 +14,7 @@ namespace convertor
         public List<uint> direction_to = new List<uint>();
         public List<uint> ConnectedAnime = new List<uint>();
         public bool isAnimeObject = false;
+        public bool leadsToAnime = false;
 
         public void AddDirectionTo(uint dir)
         {

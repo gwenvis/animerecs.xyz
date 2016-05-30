@@ -105,7 +105,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\!Visual Studio\MALAPI\MALAPI\MALAPI.csproj">
+    <ProjectReference Include="..\..\..\..\..\!Visual Studio\MALAPI\MALAPI\MALAPI.csproj">
       <Project>{48093cac-1eff-4018-b030-418775e99a63}</Project>
       <Name>MALAPI</Name>
     </ProjectReference>

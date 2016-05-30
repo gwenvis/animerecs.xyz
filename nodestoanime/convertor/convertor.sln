@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "convertor", "convertor\convertor.csproj", "{FC4267F1-CD3A-4A57-9CA4-296DA0CB7ECF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MALAPI", "..\..\..\..\..\!Visual Studio\MALAPI\MALAPI\MALAPI.csproj", "{48093CAC-1EFF-4018-B030-418775E99A63}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MALAPI", "..\..\..\..\!Visual Studio\MALAPI\MALAPI\MALAPI.csproj", "{48093CAC-1EFF-4018-B030-418775E99A63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
