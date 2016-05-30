@@ -29,6 +29,30 @@ function ChooseRandomImage(id) {
 
 //when clcik buton
 function ClickButton(id) {
+    
+    //Update text
+    var prevID = id;
+    var text = anime[id].name;
+    
+    for(var x = 0; x < 5; x++) {
+        
+        if(anime[prevID].id == 0)
+            break;
+        
+        if(x == 4) {
+            text = '<a href="#0">...</a> > ' + text;
+            break;
+        }
+        
+        prevID = anime[prevID].direction_from;
+        text = '<strong><a href="#' + prevID + '">' + anime[prevID].name + "</a></strong> > " + text;
+        
+        
+        
+    }
+    
+    document.getElementById('path').innerHTML = text;
+    
     if(anime[id].leadsToAnime)
     {
         LoadOptionAnime(id);
@@ -46,6 +70,8 @@ function ClickButton(id) {
         console.log("Loading: " + animeArray[i]); // writes 0 and 1 in console
         LoadID(animeArray[i], animeArray.length, i);
     }
+    
+    
 }
 
 //C# is better than Javascript. Sadly you can't use it for client side scripting :(
@@ -118,7 +144,6 @@ function LoadID(id, amount, index) {
         if(amount == 2) {
             var index0pos = window.innerWidth / 2 - 402;
             var index1pos = window.innerWidth /2 + 2;
-            console.log(document.getElementById("a0").getBoundingClientRect());
             
             document.getElementById("article").style.height = '500px';
             
@@ -163,7 +188,7 @@ function LoadID(id, amount, index) {
             style.innerHTML += '#a3 { position:absolute; left: ' + index3pos + 'px; top: ' + secondrowpos +  'px;}';
             style.innerHTML += '#a4 { position:absolute; left: ' + index4pos + 'px; top: ' + secondrowpos +  'px;}';
         }
-        else if(amount == 4) {
+        else if(amount == 6) {
             var index0pos = window.innerWidth / 2 - 402 - 402 * 0.5;
             var index1pos = window.innerWidth / 2 - 400 * 0.5;
             var index2pos = window.innerWidth / 2 + 402 * 0.5;

@@ -48,6 +48,14 @@ footer, .sitemap {
 	position: relative;
 	z-index: 3;
 }
+
+#path {
+    margin: 0 auto;
+    width:1020px;
+    color:black;
+    padding-top:15px;
+}
+
 aside {
 	display: block;
 	width: 100%;
@@ -115,6 +123,10 @@ nav ul li {
 	display: inline;
 	margin: 0 0 0 3px;
     
+}
+
+#path a {
+    color:black;
 }
 
 p#question {
