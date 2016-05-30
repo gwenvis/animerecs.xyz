@@ -1,6 +1,7 @@
-<li>
-                <div id="clipping">
+
+                <div id="a{INDEX}" class="clipping">
+			<p>{NAME}</p>
                     <a href="#{ID}")"><img id="option" src="{IMGLINK}" />
-        	       <p>{NAME}</p></a>
+        	       </a>
               </div>
-            </li>
+            

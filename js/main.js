@@ -13,8 +13,8 @@ $.ajax("/exported/anime.json").done(function(data) {
         anime = data;
         
         if(location.hash.length <= 1) {
-            LoadID(0);
-            LoadID(1);
+            LoadID(0, 2, 0);
+            LoadID(1, 2, 1);
         }
         else
             ClickButton(location.hash.slice(1));
@@ -35,7 +35,7 @@ function ClickButton(id) {
         document.getElementById("question").innerHTML = "Here you go!";
         return;
     }
-    $(".options ul").empty();
+    $(".options").empty();
     
     var animeArray = anime[id].direction_to; // writes [5,21] in console.
     document.getElementById("question").innerHTML = "What are you looking for..?";
@@ -44,13 +44,13 @@ function ClickButton(id) {
     for(var i = 0; i < animeArray.length; i++)
     {
         console.log("Loading: " + animeArray[i]); // writes 0 and 1 in console
-        LoadID(animeArray[i]);
+        LoadID(animeArray[i], animeArray.length, i);
     }
 }
 
 //C# is better than Javascript. Sadly you can't use it for client side scripting :(
 function LoadOptionAnime(id) {
-    $(".options ul").empty();
+    $(".options").empty();
     
     for(var i = 0; i < anime[id].direction_to.length; i++) {
         
@@ -77,15 +77,15 @@ function CreateCard(anime, template) {
     thing = thing.replace("{SUMMARY}", "<p>"+ summary + "</p>");
     thing = thing.replace("{GENRES}", a.AnimeGenres.join(", "));
 
-    $(".options ul").append(thing);
+    $(".options").append(thing);
 }
 
 //when home
 function Home() {
-    $(".options ul").empty();
+    $(".options").empty();
     
-    LoadID(0);
-    LoadID(1);
+    LoadID(0, 2, 0);
+    LoadID(1, 2, 1);
 }
 
 //when previous :)
@@ -95,15 +95,56 @@ function Previous() {
 
 
 //Whoever likes Javascript, why? Are you a masochist?
-function LoadID(id) {
+function LoadID(id, amount, index) {
     $.ajax("/buttontemplate.txt", {dataType:'text'}).done(function(data) {
         var button = data;
         
         button = button.replace("{IMGLINK}","/exported/img/" + ChooseRandomImage(id) + ".jpg");
         button = button.replace("{NAME}", anime[id].name)
         button = button.replace("{ID}", id);
+        button = button.replace("{INDEX}", index);
         
-        $(".options ul").append(button);
+        $(".options").append(button);
+        var style = document.getElementById("customcss");
+        style.innerHTML = "";
+        
+        //ABSOLUTE POSITIONING, AM I NUTS?!?!?!?!?!?!?!
+        //Yes. Yes I am, what am I even doing? I have no clue. Please send help.
+        //This site won't even work for people that use mobile sites this way!
+        //Do I have to implement a check for it or something?
+        //probably, yeah.
+        //Desktop first, they're the important people.
+        //I want to die
+        if(amount == 2) {
+            var index0pos = window.innerWidth / 2 - 402;
+            var index1pos = window.innerWidth /2 + 2;
+            
+            document.getElementById("article").style.height = '500';
+            
+            style.innerHTML += '#a0 { position:absolute; left: ' + index0pos + 'px; } #a1 { position:absolute; left:' + index1pos + 'px; }';
+        }
+        else if(amount == 3) {
+            var index0pos = window.innerWidth / 2 - 402 - 402 * 0.5;
+            var index1pos = window.innerWidth / 2 + 402 * 0.5;
+            var index2pos = window.innerWidth / 2 - 400 * 0.5;
+            
+            document.getElementById("article").style.height = '500';
+            
+            style.innerHTML += '#a0 { position:absolute; left: ' + index0pos + 'px; } #a1 { position:absolute; left:' + index1pos + 'px; } #a2 { position: absolute; left:' + index2pos + 'px;}';
+        }
+        else if(amount == 4) {
+            var index0pos = window.innerWidth / 2 - 402 - 402 * 0.5;
+            var index1pos = window.innerWidth / 2 + 402 * 0.5;
+            var index2pos = window.innerWidth / 2 - 400 * 0.5;
+            var secondrowpos = window.innerWidth / 2 - 402 - 402 * 0.5;
+            
+            document.getElementById("article").style.height = '800';
+            
+            style.innerHTML += '#a0 { position:absolute; left: ' + index0pos + 'px; }';
+            style.innerHTML += '#a1 { position:absolute; left: ' + index1pos + 'px; }';
+            style.innerHTML += '#a2 { position:absolute; left: ' + index2pos + 'px; }';
+            style.innerHTML += '#a3 { position:absolute; left: ' + index0pos + 'px; top: ' + secondrowpos +  'px;}';
+        }
     });    
 }
 
