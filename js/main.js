@@ -14,7 +14,7 @@ window.onload = function() {
             LoadID(1);
         }
         else
-            LoadID(location.hash)
+            ClickButton(location.hash[1]);
     });
 }
 
@@ -22,22 +22,30 @@ window.onload = function() {
     
 //choose random image of the selected ID
 function ChooseRandomImage(id) {
-    
-    var randid = anime[id].ConnectedAnime[Math.floor(Math.random() * anime[id].ConnectedAnime.length)];
-    
-    document.getElementById('idstyles').innerHTML += '#a';
-    document.getElementById('idstyles').innerHTML += id;
-    document.getElementById('idstyles').innerHTML += ':before { content:""; background-repeat:no-repeat; background-size:550px;background-position:center;background-image:url("/exported/img/' + randid + '.jpg");position:relative;display:block;width:500px;height:350px;-webkit-filter:blur(5px);-moz-filter:blur(5px);filter:blur(5px);-ms-filter:blur(5px); overflow:hidden; }';
+    return randid = anime[id].ConnectedAnime[Math.floor(Math.random() * anime[id].ConnectedAnime.length)];
 }
 
 //when clcik buton
 function ClickButton(id) {
-    alert("yes");
+    $(".options ul").empty();
+    
+    var animeArray = anime[id].direction_to; // writes [5,21] in console.
+    
+    var x;
+    
+    for(var i = 0; i < animeArray.length; i++)
+    {
+        console.log("Loading: " + animeArray[i]); // writes 0 and 1 in console
+        LoadID(animeArray[i]);
+    }
 }
 
 //when home
 function Home() {
+    $(".options ul").empty();
     
+    LoadID(0);
+    LoadID(1);
 }
 
 //when previous :)
@@ -48,15 +56,15 @@ function Previous() {
 
 //Whoever likes Javascript, why? Are you a masochist?
 function LoadID(id) {
-    ChooseRandomImage(id);
     $.ajax("/buttontemplate.txt", {dataType:'text'}).done(function(data) {
         var button = data;
         
-        button = button.replace("{buttonid}", id);
-        button = button.replace("{ID}", id)
-        button = button.replace("{NODENAME}", anime[id].name)
+        button = button.replace("{IMGLINK}","/exported/img/" + ChooseRandomImage(id) + ".jpg");
+        button = button.replace("{ID}", id);
+        button = button.replace("{NAME}", anime[id].name)
+        button = button.replace("{ID}", id);
         
-        $(".wrapper").append(button);
+        $(".options ul").append(button);
     });    
 }
 

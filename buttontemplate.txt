@@ -1,7 +1,6 @@
-<a href="" onclick="ClickButton({ID})">
-                        <div class="questionbutton" id="a{buttonid}" onclick="ClickButton({ID})">
-                            <div class="questiontext">
-                                {NODENAME}
-                            </div>
-                        </div>
-                    </a>
+<li>
+                <div id="clipping">
+                    <a href="#{ID}" onclick="ClickButton({ID})"><img id="option" src="{IMGLINK}" />
+        	       <p>{NAME}</p></a>
+              </div>
+            </li>

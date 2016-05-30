@@ -1,38 +1,48 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>AniRecs</title>
-        <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
-        <link rel="stylesheet" type="text/css" href="css/shit.css">
-        <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-        <meta name="viewport" content="width=400, initial-scale=0.8, user-scalable=no">
-        <style id="idstyles"></style>
-    </head>
+<head>
+<title>AniRecs</title>
+<link rel="stylesheet" type="text/css" href="css/shit.css">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/jquery.fittext.js"></script>
+</head>
 
-    <body>
-            <header>
-                <p><a id="logo" href="index.html">Ani<span style="color:#a1d0ff;">Recs</span></a></p>
-                <ul>
-                    <li><a href="#">home</a></li>
-                    <li><a href="#">suggest</a></li>
-                    <li><a href="#">about</a></li>
-                </ul>
-            </header>
-
-            <div class="wrapper" id="burger">
-                <div id="removeable">
-                    <p id="question"><a href="#"><i class="fa fa-home" aria-hidden="true"></i></a>
-                        What do you want? 
-                        <a id="back" style="color:grey;" href="#"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></a>
-                        <a href="#"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
-                    </p>
-                </div>
-				
-            </div>
+<body>
+<div class="full-page">
+  <header>
+    <div id="centred">
+      <div class="logo"><a id="logo" href="index.html">Ani<span style="color:#a1d0ff;">Recs</span></a></div>
+      <nav>
+        <ul>
+          <li><a href="#" onclick="Home()">Home</a></li>
+          <li><a href="#">Suggest</a></li>
+          <li><a href="#">About</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <article>
+    <div id="centred">
+      <p id="question">What were you looking for..?</p>
+        
+      <div class="options">
+          <ul>
             
-    </body>
+            
+          </ul>
+      </div>
+    </div>
+  </article>
+  <div class="sitemap"></div>
+  <aside>
+  </aside>
+  <footer>
+    <div id="centred">
+      <p><a href="https://www.facebook.com/20precentcooler?fref=ts">Copyright &copy; 2016 AniRecs</a></p>
+    </div>
+  </footer>
+</div>
+</body>
 </html>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script type="text/javascript" src="js/main.js"></script>
