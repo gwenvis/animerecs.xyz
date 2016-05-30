@@ -1,7 +1,7 @@
 
                 <div id="a{INDEX}" class="clipping">
-			<p>{NAME}</p>
+			
                     <a href="#{ID}")"><img id="option" src="{IMGLINK}" />
-        	       </a>
+        	       <p>{NAME}</p></a>
               </div>
             
