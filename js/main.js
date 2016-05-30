@@ -32,13 +32,13 @@ function ClickButton(id) {
     if(anime[id].leadsToAnime)
     {
         LoadOptionAnime(id);
-        document.getElementById("question").innerHTML = "Here you go!";
+        document.getElementById("question").innerHTML = "Here you go! (PREVIEW VERSION)";
         return;
     }
     $(".options").empty();
     
     var animeArray = anime[id].direction_to; // writes [5,21] in console.
-    document.getElementById("question").innerHTML = "What are you looking for..?";
+    document.getElementById("question").innerHTML = "What are you looking for..? (PREVIEW VERSION)";
     var x;
     
     for(var i = 0; i < animeArray.length; i++)
