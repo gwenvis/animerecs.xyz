@@ -1,4 +1,4 @@
-
+<li>
                 <div class="card">
                     <div class="thumb-link">
                         <div class="title">
@@ -14,3 +14,4 @@
                         <div class="genres">{GENRES}</div>                 
                     </div>
                 </div>
+</li>

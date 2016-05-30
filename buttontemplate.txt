@@ -1,6 +1,6 @@
 <li>
                 <div id="clipping">
-                    <a href="#{ID}" onclick="ClickButton({ID})"><img id="option" src="{IMGLINK}" />
+                    <a href="#{ID}")"><img id="option" src="{IMGLINK}" />
         	       <p>{NAME}</p></a>
               </div>
             </li>
