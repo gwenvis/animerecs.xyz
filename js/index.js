@@ -95,6 +95,8 @@ function load(evt) {
         for(var edge in parsedJSON.edges._data) {
             edges.add(parsedJSON.edges._data[edge]);
         }
+        
+        data.lastID = parsedJSON.lastID;
     };
     
     reader.readAsText(file);

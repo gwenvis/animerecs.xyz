@@ -138,7 +138,7 @@ namespace convertor
                     ///It might be loading useless files. I might do that later, first hope this actually works.
                     ///Yes, I'm working on that right now!
 
-                    AnimeNode tempAnim = new AnimeNode(anime.Title, anime.Synopsis, uint.Parse(a.id.ToString()), anime.Genres, anime.Studios, anime.Score);
+                    AnimeNode tempAnim = new AnimeNode(anime.Title, anime.Synopsis, uint.Parse(a.id.ToString()), anime.Genres, anime.Studios, a.malLink.ToString(), anime.Score);
                     nodeDict.Add(uint.Parse(a.id.ToString()), tempAnim);
                     tempAnim = null;
                     LogNewLine($"Added anime to node list. ({anime.Title})");
