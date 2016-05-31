@@ -19,8 +19,12 @@ $.ajax("/exported/anime.json").done(function(data) {
         }
     
         if(location.hash.length <= 1) {
-            LoadID(0, 2, 0);
-            LoadID(1, 2, 1);
+            
+            //Since there are no movies yet, just do shows only.
+            ClickButton(0);
+            
+            //LoadID(0, 2, 0);
+            //LoadID(1, 2, 1);
         } else if(location.hash.slice(1) == 'home')
                 Home();
         else
