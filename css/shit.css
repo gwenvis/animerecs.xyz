@@ -87,7 +87,11 @@ aside {
 	-webkit-filter: grayscale(80%);
 	filter: grayscale(80%);
 	width:100%;
-	position: relative;
+	position: absolute;
+    position: absolute;
+    top:0;
+    bottom:0;
+    margin:auto;
 	z-index: 5;
     transition: all 0.25s ease-out;
 }
@@ -97,7 +101,10 @@ aside {
 	-webkit-filter: grayscale(0%);
 	filter: grayscale(0%);
 	width:100%;
-	position: relative;
+	position: absolute;
+    top:0;
+    bottom:0;
+    margin:auto;
 	z-index: 5;
     transition: all 0.5s ease-out;
 }

@@ -170,7 +170,7 @@ function LoadID(id, amount, index) {
             var index2pos = window.innerWidth / 2 + 402 * 0.5;
             var secondrowpos = 475;
             
-            document.getElementById("article").style.minHeight = '800px';
+            document.getElementById("article").style.minHeight = '700px';
             
             style.innerHTML += '#a0 { position:absolute; left: ' + index0pos + 'px; }';
             style.innerHTML += '#a1 { position:absolute; left: ' + index1pos + 'px; }';
@@ -185,7 +185,7 @@ function LoadID(id, amount, index) {
             var index4pos = window.innerWidth /2 + 2;
             var secondrowpos = 475;
             
-            document.getElementById("article").style.minHeight = '800px';
+            document.getElementById("article").style.minHeight = '700px';
             
             style.innerHTML += '#a0 { position:absolute; left: ' + index0pos + 'px; }';
             style.innerHTML += '#a1 { position:absolute; left: ' + index1pos + 'px; }';
@@ -199,7 +199,7 @@ function LoadID(id, amount, index) {
             var index2pos = window.innerWidth / 2 + 402 * 0.5;
             var secondrowpos = 475;
             
-            document.getElementById("article").style.minHeight = '800px';
+            document.getElementById("article").style.minHeight = '700px';
             
             style.innerHTML += '#a0 { position:absolute; left: ' + index0pos + 'px; }';
             style.innerHTML += '#a1 { position:absolute; left: ' + index1pos + 'px; }';
