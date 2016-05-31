@@ -12,7 +12,7 @@
 }
 #centred{
 	display: block;
-	width: 1024px;
+	width: 1280px;
 	margin: 0 auto;
 	padding: 2px;
 }
@@ -30,12 +30,13 @@ header {
 article {
 	display: block;
 	width: 100%;
-	height: 500px;
+	min-height: 500px;
 	background-color: #2b2b2b;
 	background-repeat:repeat;
     background-image: url('../img/resources/metal-texture.png');
     background-blend-mode: overlay;
 	z-index: 2;
+    height:auto;
 }
 footer, .sitemap {
 	display: block;
@@ -66,7 +67,9 @@ aside {
 
 .options {
 	display: block;
-	height: 400px;
+	min-height: 400px;
+    height:auto;
+    text-align:center;
 }
 .clipping {
     position:absolute;
@@ -81,8 +84,8 @@ aside {
 }
 .clipping a #option {
 	display: block;
-	-webkit-filter: blur(10px);
-	filter: blur(10px);
+	-webkit-filter: grayscale(80%);
+	filter: grayscale(80%);
 	width:100%;
 	position: relative;
 	z-index: 5;
@@ -91,12 +94,12 @@ aside {
 
 .clipping a:hover #option {
 	display: block;
-	-webkit-filter: blur(3px);
-	filter: blur(3px);
+	-webkit-filter: grayscale(0%);
+	filter: grayscale(0%);
 	width:100%;
 	position: relative;
 	z-index: 5;
-    transition: all 0.25s ease-out;
+    transition: all 0.5s ease-out;
 }
 /*** Text ***/
 a {
@@ -174,8 +177,8 @@ ul li {
 
 .card
 {
-    width:376px;
-    height:275px;
+    width:500px;
+    height:350px;
     margin:10px;
     float:left;
     overflow:hidden;
@@ -188,8 +191,8 @@ ul li {
 
 .thumb
 {
-    height:275px;
-    width:195px;
+    height:350px;
+    width:250px;
     float:left;
     display:block;
     border-bottom-left-radius: 2px;
@@ -199,8 +202,8 @@ ul li {
 {
     height:auto;
     position:absolute;
-    width:195px;
-    max-width:195px;
+    width:250px;
+    max-width:250px;
     padding: 30px 0 8px 8px;
     bottom:0;
     background:linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.5) 100%);
@@ -212,25 +215,27 @@ ul li {
 {
     text-shadow: 0 0 1px #000;
     color:white;
-    font-weight:600;
+    font-weight:700;
     width:auto;
 	font-family:'Open Sans';
+    text-align:left;
 }
 
 #studio
 {
     color:#71ceff;
-    font-size:12px;
+    font-size:14px;
     width:auto;
 }
 
 .blah
 {
-    width:180px;
+    width:250px;
     font-size:0.75em;
     float:right;
-    height:250px;
+    height:100%;
 	font-family:'Open Sans';
+    overflow-x: hidden;
 }
 
 .genres
@@ -258,8 +263,9 @@ ul li {
     padding-right:8px;
     padding-top:5px;
     overflow:scroll;
-    height:238px;
+    height:292px;
 	font-family:'Open Sans';
+    overflow-x:hidden;
 }
 
 .summary p {

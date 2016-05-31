@@ -5,17 +5,24 @@ var currentID = 0;
 var anime;
 
 $.ajax("/exported/anime.json").done(function(data) {
-        
-        window.onhashchange = function(hash) {
-            ClickButton(location.hash.slice(1));
-        }
-        
         anime = data;
         
+        window.onhashchange = function(hash) {
+            
+            if(location.hash.slice(1) == 'home') {
+                Home();
+                
+                return;
+            }
+            
+            ClickButton(location.hash.slice(1));
+        }
+    
         if(location.hash.length <= 1) {
             LoadID(0, 2, 0);
             LoadID(1, 2, 1);
-        }
+        } else if(location.hash.slice(1) == 'home')
+                Home();
         else
             ClickButton(location.hash.slice(1));
 });
@@ -61,13 +68,13 @@ function ClickButton(id) {
     }
     $(".options").empty();
     
-    var animeArray = anime[id].direction_to; // writes [5,21] in console.
+    var animeArray = anime[id].direction_to;
     document.getElementById("question").innerHTML = "What are you looking for..? (PREVIEW VERSION)";
     var x;
     
     for(var i = 0; i < animeArray.length; i++)
     {
-        console.log("Loading: " + animeArray[i]); // writes 0 and 1 in console
+        console.log("Loading: " + animeArray[i]);
         LoadID(animeArray[i], animeArray.length, i);
     }
     
@@ -77,7 +84,8 @@ function ClickButton(id) {
 //C# is better than Javascript. Sadly you can't use it for client side scripting :(
 function LoadOptionAnime(id) {
     $(".options").empty();
-    document.getElementById("article").style.height = '500px';
+    $(".options").append("<ul></ul>");
+    document.getElementById("article").style.minHeight = '500px';
     for(var i = 0; i < anime[id].direction_to.length; i++) {
         
         console.log(anime[id].direction_to[i]);
@@ -103,20 +111,17 @@ function CreateCard(anime, template) {
     thing = thing.replace("{SUMMARY}", "<p>"+ summary + "</p>");
     thing = thing.replace("{GENRES}", a.AnimeGenres.join(", "));
 
-    $(".options").append(thing);
+    $(".options ul").append(thing);
 }
 
 //when home
 function Home() {
     $(".options").empty();
-    
+                
+    document.getElementById('path').innerHTML = '';
+                
     LoadID(0, 2, 0);
     LoadID(1, 2, 1);
-}
-
-//when previous :)
-function Previous() {
-    
 }
 
 
@@ -145,7 +150,7 @@ function LoadID(id, amount, index) {
             var index0pos = window.innerWidth / 2 - 402;
             var index1pos = window.innerWidth /2 + 2;
             
-            document.getElementById("article").style.height = '500px';
+            document.getElementById("article").style.minHeight = '500px';
             
             style.innerHTML += '#a0 { position:absolute; left: ' + index0pos + 'px; } #a1 { position:absolute; left:' + index1pos + 'px; }';
         }
@@ -154,7 +159,7 @@ function LoadID(id, amount, index) {
             var index1pos = window.innerWidth / 2 + 402 * 0.5;
             var index2pos = window.innerWidth / 2 - 400 * 0.5;
             
-            document.getElementById("article").style.height = '500px';
+            document.getElementById("article").style.minHeight = '500px';
             
             
             style.innerHTML += '#a0 { position:absolute; left: ' + index0pos + 'px; } #a1 { position:absolute; left:' + index1pos + 'px; } #a2 { position: absolute; left:' + index2pos + 'px;}';
@@ -165,7 +170,7 @@ function LoadID(id, amount, index) {
             var index2pos = window.innerWidth / 2 + 402 * 0.5;
             var secondrowpos = 475;
             
-            document.getElementById("article").style.height = '800px';
+            document.getElementById("article").style.minHeight = '800px';
             
             style.innerHTML += '#a0 { position:absolute; left: ' + index0pos + 'px; }';
             style.innerHTML += '#a1 { position:absolute; left: ' + index1pos + 'px; }';
@@ -180,7 +185,7 @@ function LoadID(id, amount, index) {
             var index4pos = window.innerWidth /2 + 2;
             var secondrowpos = 475;
             
-            document.getElementById("article").style.height = '800px';
+            document.getElementById("article").style.minHeight = '800px';
             
             style.innerHTML += '#a0 { position:absolute; left: ' + index0pos + 'px; }';
             style.innerHTML += '#a1 { position:absolute; left: ' + index1pos + 'px; }';
@@ -194,7 +199,7 @@ function LoadID(id, amount, index) {
             var index2pos = window.innerWidth / 2 + 402 * 0.5;
             var secondrowpos = 475;
             
-            document.getElementById("article").style.height = '800px';
+            document.getElementById("article").style.minHeight = '800px';
             
             style.innerHTML += '#a0 { position:absolute; left: ' + index0pos + 'px; }';
             style.innerHTML += '#a1 { position:absolute; left: ' + index1pos + 'px; }';
