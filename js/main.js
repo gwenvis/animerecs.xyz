@@ -20,7 +20,16 @@ $.ajax("/exported/anime.json").done(function(data) {
             ClickButton(location.hash.slice(1));
         }
         
-        bxslider = $('.bxslider').bxSlider({
+        
+        
+        //Phone compatability
+        if(window.innerWidth < 800) {
+            $("aside").remove();
+            dothisthing = false;
+            $("nav ul").remove();
+            
+        }else {
+            bxslider = $('.bxslider').bxSlider({
 				mode: 'horizontal',
 				useCSS: true,
 				infiniteLoop: true,
@@ -38,6 +47,7 @@ $.ajax("/exported/anime.json").done(function(data) {
                 easing:'linear',
                 pause:0
 			});
+        }
     
         if(location.hash.length <= 1) {
             
@@ -88,13 +98,13 @@ function ClickButton(id) {
     if(anime[id].leadsToAnime)
     {
         LoadOptionAnime(id);
-        document.getElementById("question").innerHTML = "Here you go! (PREVIEW VERSION)";
+        document.getElementById("question").innerHTML = "Here you go!";
         return;
     }
     $(".options").empty();
     
     var animeArray = anime[id].direction_to;
-    document.getElementById("question").innerHTML = "What are you looking for..? (PREVIEW VERSION)";
+    document.getElementById("question").innerHTML = "What are you looking for..?";
     var x;
     fillSlider(id);
     
@@ -110,7 +120,7 @@ function ClickButton(id) {
 //C# is better than Javascript. Sadly you can't use it for client side scripting :(
 function LoadOptionAnime(id) {
     $(".options").empty();
-    $(".options").append("<ul></ul>");
+    $(".options").append('<ul style="padding:0"></ul>');
     document.getElementById("article").style.minHeight = '500px';
     for(var i = 0; i < anime[id].direction_to.length; i++) {
         
@@ -164,6 +174,14 @@ function LoadID(id, amount, index) {
         $(".options").append(button);
         var style = document.getElementById("customcss");
         style.innerHTML = "";
+        
+        console.log("Screen size: " + window.innerWidth);
+        //Phone compatability. Should probably not do this here but I honestly don't give a crap right now
+        if(window.innerWidth < 800) {
+            console.log("screen size small just like penis, skipping scaling.");
+            return;
+        }        
+            
         
         //ABSOLUTE POSITIONING, AM I NUTS?!?!?!?!?!?!?!
         //Yes. Yes I am, what am I even doing? I have no clue. Please send help.
@@ -237,7 +255,12 @@ function LoadID(id, amount, index) {
     });    
 }
 
+var dothisthing = true;
 function fillSlider(id) {
+    
+    if(!dothisthing)
+        return;
+    
     var connectedAnime = anime[id].ConnectedAnime;
     
     $(".bxslider").empty();
