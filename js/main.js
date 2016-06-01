@@ -22,7 +22,7 @@ $.ajax("/exported/anime.json").done(function(data) {
         
         bxslider = $('.bxslider').bxSlider({
 				mode: 'horizontal',
-				useCSS: false,
+				useCSS: true,
 				infiniteLoop: true,
   				minSlides: 1,
                 maxSlides: 10,
