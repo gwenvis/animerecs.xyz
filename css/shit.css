@@ -134,6 +134,11 @@ aside {
 	margin: 0;
 	padding: 0;
 }
+
+.bxslider li img {
+    width:250px !important;
+    height:380px !important; 
+}
 /*** Text ***/
 a {
 	text-decoration: none;
@@ -167,9 +172,7 @@ p#question {
 	display: block;
 	margin: 24px 0 23px 0;
 }
-aside {
-    background-image:url("/img/resources/metal-texture.png");
-}
+aside {}
 .slider-wrapper {
 	display: block;
 	width: 1920px;
