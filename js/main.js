@@ -4,6 +4,8 @@ var currentID = 0;
 //load the anime json
 var anime;
 
+var bxslider;
+
 $.ajax("/exported/anime.json").done(function(data) {
         anime = data;
         
@@ -17,6 +19,25 @@ $.ajax("/exported/anime.json").done(function(data) {
             
             ClickButton(location.hash.slice(1));
         }
+        
+        bxslider = $('.bxslider').bxSlider({
+				mode: 'horizontal',
+				useCSS: true,
+				infiniteLoop: true,
+  				minSlides: 1,
+                maxSlides: 10,
+                moveSlides: 1,
+  				slideWidth: 250,
+  				slideMargin: 0,
+                auto: true,
+				speed: 9000,
+				randomStart: true,
+                wrapperClass: 'slider-wrapper',
+                pager: false,
+                controls: false,
+                easing:'linear',
+                pause:0
+			});
     
         if(location.hash.length <= 1) {
             
@@ -75,6 +96,7 @@ function ClickButton(id) {
     var animeArray = anime[id].direction_to;
     document.getElementById("question").innerHTML = "What are you looking for..? (PREVIEW VERSION)";
     var x;
+    fillSlider(id);
     
     for(var i = 0; i < animeArray.length; i++)
     {
@@ -103,19 +125,19 @@ function LoadOptionAnime(id) {
 }
 
 function CreateCard(anime, template) {
-    var thing = template;
+    var dickthing = template;
     var a = anime;
     
-    thing = thing.replace("{SHOW}", a.AnimeName);
-    thing = thing.replace("{STUDIO}", a.AnimeStudios.join(", "));
-    thing = thing.replace("{POSTER}", "/exported/img/" + a.id + ".jpg");
-    thing = thing.replace("{MALLINK}", a.MalLink);
+    dickthing = dickthing.replace("{SHOW}", a.AnimeName);
+    dickthing = dickthing.replace("{STUDIO}", a.AnimeStudios.join(", "));
+    dickthing = dickthing.replace("{POSTER}", "/exported/img/" + a.id + ".jpg");
+    dickthing = dickthing.replace("{MALLINK}", a.MalLink);
     var summary = a.AnimeDescription;
     summary = summary.replace(/\r\n/g, "<br>")
-    thing = thing.replace("{SUMMARY}", "<p>"+ summary + "</p>");
-    thing = thing.replace("{GENRES}", a.AnimeGenres.join(", "));
+    dickthing = dickthing.replace("{SUMMARY}", "<p>"+ summary + "</p>");
+    dickthing = dickthing.replace("{GENRES}", a.AnimeGenres.join(", "));
 
-    $(".options ul").append(thing);
+    $(".options ul").append(dickthing);
 }
 
 //when home
@@ -213,6 +235,23 @@ function LoadID(id, amount, index) {
             style.innerHTML += '#a5 { position:absolute; left: ' + index2pos + 'px; top: ' + secondrowpos +  'px;}';
         }
     });    
+}
+
+function fillSlider(id) {
+    var connectedAnime = anime[id].ConnectedAnime;
+    
+    $(".bxslider").empty();
+    
+    var amount = 0;
+    
+    while(amount < 10) {
+        for(var i = 0; i < connectedAnime.length; i++) {
+            $(".bxslider").append('<li><img src="/exported/img/' + connectedAnime[i] + '.jpg"/></li>');
+            amount++;
+        }
+    }
+    
+    bxslider.reloadSlider();
 }
 
 function getRandomInt(min, max) {
